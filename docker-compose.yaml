@@ -20,16 +20,16 @@ services:
       # Set this to your website's URL
       BASE_URL: http://localhost:3007
     volumes:
-      - ./competition.remote.config.yaml:/competition.config.yaml
+      - ./competition.config.yaml:/competition.config.yaml
   base:
     build: ghcr.io/shortestpathlab/open-competition-kit/base:latest
     depends_on:
       - db
     volumes:
-      - ./competition.remote.config.yaml:/competition.config.yaml
+      - ./competition.config.yaml:/competition.config.yaml
   basic-runner:
     build: ghcr.io/shortestpathlab/open-competition-kit/basic-runner:latest
     depends_on:
       - db
     volumes:
-      - ./competition.remote.config.yaml:/competition.config.yaml
+      - ./competition.config.yaml:/competition.config.yaml
