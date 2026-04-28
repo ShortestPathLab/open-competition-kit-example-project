@@ -1,0 +1,35 @@
+services:
+  db:
+    hostname: db
+    image: postgres
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_DB: postgres
+  ui:
+    image: ghcr.io/shortestpathlab/open-competition-kit/ui:latest
+    ports:
+      - "3007:80"
+    depends_on:
+      - db
+    environment:
+      # Set this to a random string in production
+      BETTER_AUTH_SECRET: secret
+      # Set this to your website's URL
+      BASE_URL: http://localhost:3007
+    volumes:
+      - ./competition.remote.config.yaml:/competition.config.yaml
+  base:
+    build: ghcr.io/shortestpathlab/open-competition-kit/base:latest
+    depends_on:
+      - db
+    volumes:
+      - ./competition.remote.config.yaml:/competition.config.yaml
+  basic-runner:
+    build: ghcr.io/shortestpathlab/open-competition-kit/basic-runner:latest
+    depends_on:
+      - db
+    volumes:
+      - ./competition.remote.config.yaml:/competition.config.yaml

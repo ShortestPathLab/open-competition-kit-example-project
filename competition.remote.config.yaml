@@ -1,0 +1,91 @@
+with:
+  # In the future, these will be remote
+  - ./packages/packages/noop
+  - ./packages/packages/standard
+  - ./packages/packages/db/prisma
+appName: GPPC
+appDescription: GPPC is etc.etc.
+auth:
+  email:
+    providerOptions: {}
+    betterAuthOptions: {}
+    signInParams: {}
+    signOutParams: {}
+    signUpParams: {}
+  gitlab:
+    providerOptions: {}
+    betterAuthOptions: {}
+    signInParams: {}
+    signOutParams: {}
+    signUpParams: {}
+  github:
+    providerOptions: {}
+    betterAuthOptions: {}
+    signInParams: {}
+    signOutParams: {}
+    signUpParams: {}
+db:
+  provider: postgresql
+  url: postgres://postgres:postgres@db:5432/postgres
+competitions:
+  - id: "fit5047"
+    with: []
+    name: "FIT5047 Pacman Competition"
+    organiser: "Monash University"
+    description: >
+      A programming competition for FIT5047 where participants build Pacman
+      agents and compare their performance under a shared evaluation setup.
+    overview: |
+      # FIT5047 Pacman Competition
+
+      In this competition, you'll design and implement an intelligent agent to
+      navigate a maze as efficiently as possible. Your agent will be evaluated
+      based on its ability to collect all the dots in the maze while avoiding
+      ghosts. The competition consists of a single track where you can submit
+      your agent for evaluation against a set of hidden mazes. Get ready to
+      showcase your problem-solving skills and creativity in building the best
+      Pacman agent!
+
+    rules: |
+      - Your agent must be implemented in Python and adhere to the provided
+        interface.
+      - You can submit multiple times, but only your best score will be recorded.
+      - The evaluation will be based on a hidden set of mazes, and your agent's
+        performance will be measured by the time taken to collect all dots and the
+        number of times it gets caught by ghosts.
+      - The competition will run for a specified duration, and all submissions must
+        be made before the deadline.
+    tracks:
+      - id: "main"
+        name: "Main Track"
+        description: >
+          The standard competition track for submitting and evaluating your
+          Pacman agent.
+        overview: |
+          # Main Track
+
+          In the Main Track, you'll submit your Pacman agent for evaluation against
+          a hidden set of mazes. Your agent will be scored based on its efficiency
+          in collecting dots and avoiding ghosts. This is the primary track of the
+          competition where you can compete for the top spot on the leaderboard.
+        rules: |
+          - Submissions must be made in Python and follow the provided agent interface.
+          - You can submit as many times as you like, but only your best score will
+            be recorded on the leaderboard.
+          - The evaluation will be conducted on a hidden set of mazes, and your
+            agent's performance will be measured by the time taken to collect all
+            dots and the number of times it gets caught by ghosts.
+          - The competition will run for a specified duration, and all submissions
+            must be made before the deadline.
+        with: []
+        form:
+          with: []
+    runner:
+      with: []
+      body: |
+        ({
+          ok: true,
+          track: submission.track,
+          submission: JSON.parse(submission.body),
+        })
+    leaderboards: []
