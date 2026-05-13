@@ -21,12 +21,6 @@ services:
       BASE_URL: http://localhost:3007
     volumes:
       - ./competition.config.yaml:/competition.config.yaml
-  base:
-    image: ghcr.io/shortestpathlab/open-competition-kit/base:latest
-    depends_on:
-      - db
-    volumes:
-      - ./competition.config.yaml:/competition.config.yaml
   basic-runner:
     image: ghcr.io/shortestpathlab/open-competition-kit/basic-runner:latest
     depends_on:
