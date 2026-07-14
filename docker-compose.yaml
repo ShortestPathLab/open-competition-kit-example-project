@@ -22,6 +22,13 @@ services:
     volumes:
       - ./competition.config.yaml:/competition.config.yaml
       - ./fit5047:/fit5047
+      # Submission archives. This volume MUST be mounted at the same path in the
+      # runner too: the UI writes the archive, the runner reads it. Mount it in
+      # only one and every job fails with "no such file".
+      #
+      # Swapping large-files/local for large-files/s3 removes this requirement
+      # entirely, which is what makes multi-host deployments possible.
+      - ./data:/data
   runner-service:
     image: ghcr.io/shortestpathlab/open-competition-kit/runner-service:latest
     depends_on:
@@ -29,3 +36,5 @@ services:
     volumes:
       - ./competition.config.yaml:/competition.config.yaml
       - ./fit5047:/fit5047
+      # Same volume, same path as the UI.
+      - ./data:/data

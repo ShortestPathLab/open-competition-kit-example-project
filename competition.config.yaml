@@ -4,6 +4,7 @@ with:
   - ./packages/packages/db/prisma
   - ./packages/packages/form/json
   - ./packages/packages/leaderboard/ag-grid
+  - ./packages/packages/large-files/local
   - /fit5047
   - ./packages/packages/integration/github-classic
 appName: GPPC
@@ -26,6 +27,11 @@ auth:
     signInParams: {}
     signOutParams: {}
     signUpParams: {}
+# Where submission archives are stored. The volume below MUST be mounted into
+# every service that reads or writes them — the UI writes, the runner reads.
+largeFiles:
+  root: /data/files
+  maxBytes: 536870912
 db:
   provider: postgresql
   url: postgres://postgres:postgres@db:5432/postgres
