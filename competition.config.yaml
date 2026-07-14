@@ -1,10 +1,16 @@
 with:
-  # In the future, these will be remote
   - ./packages/packages/noop
   - ./packages/packages/standard
   - ./packages/packages/db/prisma
+  - ./packages/packages/form/json
+  - ./packages/packages/leaderboard/ag-grid
+  - /fit5047
+  - ./packages/packages/integration/github-classic
 appName: GPPC
 appDescription: GPPC is etc.etc.
+secrets:
+  GITHUB_ORG: ${{ env("GITHUB_ORG") }}
+  GITHUB_PAT: ${{ env("GITHUB_PAT") }}
 auth:
   email:
     providerOptions: {}
@@ -12,14 +18,10 @@ auth:
     signInParams: {}
     signOutParams: {}
     signUpParams: {}
-  gitlab:
-    providerOptions: {}
-    betterAuthOptions: {}
-    signInParams: {}
-    signOutParams: {}
-    signUpParams: {}
   github:
-    providerOptions: {}
+    providerOptions:
+      clientId: ${{ env("GITHUB_CLIENT_ID") }}
+      clientSecret: ${{ env("GITHUB_CLIENT_SECRET") }}
     betterAuthOptions: {}
     signInParams: {}
     signOutParams: {}
@@ -80,6 +82,13 @@ competitions:
         with: []
         form:
           with: []
+          shape:
+            - id: github:ref
+              name: GitHub Branch
+              # The GitHub integration package picks this up
+              # and populates a selector with the user's branches
+              kind: github:ref-select
+
     runner:
       with: []
       body: |
@@ -88,4 +97,44 @@ competitions:
           track: submission.track,
           submission: JSON.parse(submission.body),
         })
-    leaderboards: []
+    leaderboards:
+      - id: main-track-leaderboard
+        name: Active Competition Leaderboard
+        description: Example config-provided leaderboard rendered through the UI route.
+        with: []
+        shape:
+          - id: rank
+            name: Rank
+            kind: number
+          - id: team
+            name: Team
+          - id: score
+            name: Score
+            kind: number
+          - id: submissions
+            name: Submissions
+            kind: number
+          - id: track
+            name: Track
+          - id: lastUpdated
+            name: Last Updated
+            kind: date
+        items:
+          - rank: 1
+            team: Gradient Boosters
+            score: 98.42
+            submissions: 14
+            track: Vision
+            lastUpdated: "2026-05-06 09:12"
+          - rank: 2
+            team: Feature Foundry
+            score: 97.88
+            submissions: 11
+            track: NLP
+            lastUpdated: "2026-05-06 08:47"
+          - rank: 3
+            team: Token Titans
+            score: 97.31
+            submissions: 9
+            track: Forecasting
+            lastUpdated: "2026-05-06 08:29"

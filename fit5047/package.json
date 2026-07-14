@@ -1,0 +1,17 @@
+{
+  "name": "fit5047",
+  "module": "index.ts",
+  "types": "index.ts",
+  "type": "module",
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "@open-competition-kit/sdk": "0.0.3",
+    "jszip": "^3.10.1",
+    "tempy": "^3.2.0"
+  }
+}

@@ -9,7 +9,7 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_DB: postgres
   ui:
-    image: ghcr.io/shortestpathlab/open-competition-kit/ui:latest
+    image: ghcr.io/shortestpathlab/open-competition-kit/ui-service:latest
     ports:
       - "3007:80"
     depends_on:
@@ -21,9 +21,11 @@ services:
       BASE_URL: http://localhost:3007
     volumes:
       - ./competition.config.yaml:/competition.config.yaml
-  basic-runner:
-    image: ghcr.io/shortestpathlab/open-competition-kit/basic-runner:latest
+      - ./fit5047:/fit5047
+  runner-service:
+    image: ghcr.io/shortestpathlab/open-competition-kit/runner-service:latest
     depends_on:
       - db
     volumes:
       - ./competition.config.yaml:/competition.config.yaml
+      - ./fit5047:/fit5047
