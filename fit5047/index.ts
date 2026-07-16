@@ -49,14 +49,26 @@ export default {
   runner: {
     run: async ({ job }) => {
       const archive = await resolveArchive(job);
-      const results = await temporaryUnzippedTask(archive, async (source) => {
-        return await runSuite(job, source);
-      });
+      const { results, ...outcome } = await temporaryUnzippedTask(
+        archive,
+        async (source) => {
+          return await runSuite(job, source);
+        },
+      );
+
+      // Flat, and with the four question scores totalled.
+      //
+      // A leaderboard turns an output into a row by taking its top-level keys,
+      // stringifying anything that is not a scalar. Nested, `results` arrived as
+      // a JSON blob in a single cell that nothing could rank on, and there was no
+      // one number to rank by in any case — only score1..score4.
+      const total = Object.values(results).reduce((sum, s) => sum + s, 0);
+
       try {
         await outputs.set({
           reference: "open-competition-kit/tag/output/default",
           owner: job,
-          value: results,
+          value: { ...outcome, ...results, total },
         });
       } catch {
         await jobs.update({ id: job, status: "error" });

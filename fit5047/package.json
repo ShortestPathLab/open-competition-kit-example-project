@@ -10,7 +10,7 @@
     "typescript": "^5.9.3"
   },
   "dependencies": {
-    "@open-competition-kit/sdk": "0.0.3",
+    "@open-competition-kit/sdk": "0.0.8",
     "jszip": "^3.10.1",
     "tempy": "^3.2.0"
   }
