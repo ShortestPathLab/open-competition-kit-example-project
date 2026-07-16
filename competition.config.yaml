@@ -131,8 +131,11 @@ competitions:
         # ("Vision", "NLP", "Forecasting") this competition does not have.
         from:
           track: main
-          # The reference fit5047's runner writes its scores to.
-          output: default
+          # The reference fit5047's runner writes its scores to, in full. The
+          # default is the bare "default" that `standard` uses; this runner uses
+          # the qualified tag, and a mismatch here is silent — the board simply
+          # stays empty.
+          output: open-competition-kit/tag/output/default
           # One row per participant: their best run, not their latest.
           groupBy: user
           select: best

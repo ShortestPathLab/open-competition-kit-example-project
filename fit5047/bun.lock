@@ -5,7 +5,7 @@
     "": {
       "name": "fit5047",
       "dependencies": {
-        "@open-competition-kit/sdk": "0.0.8",
+        "@open-competition-kit/sdk": "0.0.9",
         "jszip": "^3.10.1",
         "tempy": "^3.2.0",
       },
@@ -46,9 +46,9 @@
 
     "@msgpackr-extract/msgpackr-extract-win32-x64": ["@msgpackr-extract/msgpackr-extract-win32-x64@3.0.3", "", { "os": "win32", "cpu": "x64" }, "sha512-x0fWaQtYp4E6sktbsdAqnehxDgEc/VwM7uLsRCYWaiGu0ykYdZPiS8zCWdnjHwyiumousxfBm4SO31eXqwEZhQ=="],
 
-    "@open-competition-kit/core": ["@open-competition-kit/core@0.0.8", "", { "dependencies": { "@effect/platform": "^0.92.1", "@effect/platform-bun": "^0.81.1", "@types/js-yaml": "^4.0.9", "@types/lodash-es": "^4.17.12", "effect": "^3.18.4", "es-toolkit": "^1.46.1", "js-yaml": "^4.1.0", "lodash-es": "^4.17.21" }, "peerDependencies": { "typescript": "^5" } }, "sha512-LCLttnJa5bajy7zCWlc7tQWASFOofuN/KjFKBKwyp7Dmx8hZPtMzNHXFbKKGEDVlRHHH1TCtICDu/add8jbe+A=="],
+    "@open-competition-kit/core": ["@open-competition-kit/core@0.0.9", "", { "dependencies": { "@effect/platform": "^0.92.1", "@effect/platform-bun": "^0.81.1", "@types/js-yaml": "^4.0.9", "@types/lodash-es": "^4.17.12", "effect": "^3.18.4", "es-toolkit": "^1.46.1", "js-yaml": "^4.1.0", "lodash-es": "^4.17.21" }, "peerDependencies": { "typescript": "^5" } }, "sha512-1S022ukg/UG8okqodrHJpuX9zKFC8I/0AirbPqmKtnxrfJW/teyCogfgT66KopCh3/i1eC2CY9FFODle6poFZQ=="],
 
-    "@open-competition-kit/sdk": ["@open-competition-kit/sdk@0.0.8", "", { "dependencies": { "@effect/platform": "^0.92.1", "@effect/platform-bun": "^0.81.1", "@open-competition-kit/core": "0.0.8", "effect": "^3.18.4", "es-toolkit": "^1.44.0", "p-memoize": "^8.0.0", "proxy-deep": "^4.0.1", "youch": "^4.1.0-beta.14", "zod": "^4.3.6" }, "peerDependencies": { "@types/react": "19", "react": "19", "typescript": "^5" } }, "sha512-3hyil6VLWts5asHij0m5yApUpKrmn7DZOALuNYLvPMQBIBb7vd4GR+J0ydbPdDaNWGRC+Kc1OX2bwaU5nEDG/w=="],
+    "@open-competition-kit/sdk": ["@open-competition-kit/sdk@0.0.9", "", { "dependencies": { "@effect/platform": "^0.92.1", "@effect/platform-bun": "^0.81.1", "@open-competition-kit/core": "0.0.9", "effect": "^3.18.4", "es-toolkit": "^1.44.0", "p-memoize": "^8.0.0", "proxy-deep": "^4.0.1", "youch": "^4.1.0-beta.14", "zod": "^4.3.6" }, "peerDependencies": { "@types/react": "19", "react": "19", "typescript": "^5" } }, "sha512-6S93ag6ukEf+NcPNMyzICH3VDrwErxjN+9lEGppPOgmm/eH7stsEDlczqgsX1WDZEMGiTIin2afxmNJMwOemXQ=="],
 
     "@parcel/watcher": ["@parcel/watcher@2.5.6", "", { "dependencies": { "detect-libc": "^2.0.3", "is-glob": "^4.0.3", "node-addon-api": "^7.0.0", "picomatch": "^4.0.3" }, "optionalDependencies": { "@parcel/watcher-android-arm64": "2.5.6", "@parcel/watcher-darwin-arm64": "2.5.6", "@parcel/watcher-darwin-x64": "2.5.6", "@parcel/watcher-freebsd-x64": "2.5.6", "@parcel/watcher-linux-arm-glibc": "2.5.6", "@parcel/watcher-linux-arm-musl": "2.5.6", "@parcel/watcher-linux-arm64-glibc": "2.5.6", "@parcel/watcher-linux-arm64-musl": "2.5.6", "@parcel/watcher-linux-x64-glibc": "2.5.6", "@parcel/watcher-linux-x64-musl": "2.5.6", "@parcel/watcher-win32-arm64": "2.5.6", "@parcel/watcher-win32-ia32": "2.5.6", "@parcel/watcher-win32-x64": "2.5.6" } }, "sha512-tmmZ3lQxAe/k/+rNnXQRawJ4NjxO2hqiOLTHvWchtGZULp4RyFeh6aU4XdOYBFe2KE1oShQTv4AblOs2iOrNnQ=="],
 
