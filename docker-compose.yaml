@@ -40,8 +40,22 @@ services:
       - db
     # The runner reads the same config, so it needs the same variables.
     env_file: .env
+    environment:
+      # Which questions to evaluate. The full suite is minutes per submission;
+      # Q1a is seconds. "q1a,q1b,q1c,q2" runs everything.
+      FIT5047_QUESTIONS: q1a
+      # Build it first: ./fit5047/build.sh
+      FIT5047_IMAGE: ock-pacman-a1:dev
     volumes:
       - ./competition.config.yaml:/competition.config.yaml
       - ./fit5047:/fit5047
       # Same volume, same path as the UI.
       - ./data:/data
+      # Lets sandbox-docker run evaluations in their own containers, which is
+      # what keeps a submitted Pacman agent out of this one. The containers it
+      # starts are siblings on the host's daemon, not children.
+      #
+      # This is a real grant: anything that can reach this socket can control
+      # Docker on the host, and therefore the host. It is why the evaluation
+      # image is built here and never from anything a participant sends.
+      - /var/run/docker.sock:/var/run/docker.sock

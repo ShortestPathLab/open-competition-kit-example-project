@@ -5,6 +5,9 @@ with:
   - ./packages/packages/form/json
   - ./packages/packages/leaderboard/ag-grid
   - ./packages/packages/large-files/local
+  # Runs each evaluation in its own container. Needs the Docker socket mounted
+  # into the runner — see docker-compose.yaml.
+  - ./packages/packages/sandbox/docker
   - /fit5047
   - ./packages/packages/integration/github-classic
 appName: GPPC
@@ -42,6 +45,11 @@ auth:
 largeFiles:
   root: /data/files
   maxBytes: 536870912
+# The ceiling on any sandboxed run. A runner may ask for less, never for more.
+sandbox:
+  timeoutMs: 120000
+  memoryMb: 2048
+  pids: 256
 db:
   provider: postgresql
   url: postgres://postgres:postgres@db:5432/postgres
