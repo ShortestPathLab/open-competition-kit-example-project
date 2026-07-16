@@ -14,6 +14,11 @@ services:
       - "3007:80"
     depends_on:
       - db
+    # competition.config.yaml resolves ${{ env("...") }} inside the container, so
+    # the variables have to reach the container. Compose reads .env for its own
+    # substitution but does not pass it on, and a missing variable is fatal: the
+    # config fails to load at all rather than merely disabling GitHub.
+    env_file: .env
     environment:
       # Set this to a random string in production
       BETTER_AUTH_SECRET: secret
@@ -33,6 +38,8 @@ services:
     image: ghcr.io/shortestpathlab/open-competition-kit/runner-service:latest
     depends_on:
       - db
+    # The runner reads the same config, so it needs the same variables.
+    env_file: .env
     volumes:
       - ./competition.config.yaml:/competition.config.yaml
       - ./fit5047:/fit5047
