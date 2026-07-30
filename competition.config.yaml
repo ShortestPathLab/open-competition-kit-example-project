@@ -103,6 +103,28 @@ competitions:
             dots and the number of times it gets caught by ghosts.
           - The competition will run for a specified duration, and all submissions
             must be made before the deadline.
+        # The three gates the `standard` package enforces. Each is optional and
+        # each is off when absent, so a track that sets none of them behaves the
+        # way it did before gates existed. A submission is refused if any of them
+        # says no, and the form shows every reason at once rather than making a
+        # competitor fix one to discover the next.
+        #
+        # The window. Submissions before `opensAt` or at/after `closesAt` are
+        # refused wherever they arrive from, not just from the form. Always write
+        # an offset: without one the instant is read in the host's timezone, which
+        # is rarely the one the deadline was set in.
+        opensAt: "2026-07-01T09:00:00+10:00"
+        closesAt: "2027-07-01T09:00:00+10:00"
+        # The total ceiling, per competitor, for the life of the track. Counts
+        # submissions rather than evaluations, so an organiser re-running a job
+        # does not spend somebody's attempt.
+        maxSubmissions: 20
+        # A rolling cap: at most `count` in any `windowMinutes` period, measured
+        # backwards from now. Fixed hourly buckets would let someone spend a whole
+        # quota at 10:59 and another at 11:00.
+        rateLimit:
+          count: 3
+          windowMinutes: 60
         with: []
         form:
           with: []
