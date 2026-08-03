@@ -42,7 +42,7 @@ auth:
     signUpParams: {}
 # Where submission archives are stored. The volume below MUST be mounted into
 # every service that reads or writes them — the UI writes, the runner reads.
-largeFiles:
+files:
   root: /data/files
   maxBytes: 536870912
 # The ceiling on any sandboxed run. A runner may ask for less, never for more.
@@ -58,6 +58,18 @@ competitions:
     with: []
     name: "FIT5047 Pacman Competition"
     organiser: "Monash University"
+    # Both pictures are read off disk and inlined into the config, so they are
+    # versioned alongside the competition that uses them and there is no host to
+    # go down. An ordinary https:// URL works here too.
+    #
+    # `icon` stands in for the competition wherever it is named: its card on the
+    # index, its own header, the list of competitions somebody has entered.
+    icon: ${{ dataUrl("./assets/competition-icon.svg") }}
+    # `banner` is painted behind the navigation bar and header on every page
+    # inside this competition. What shows is a horizontal band through the
+    # middle, so keep anything that matters near the centre, and give it a wide
+    # picture rather than a square one.
+    banner: ${{ dataUrl("./assets/banner.svg") }}
     description: >
       A programming competition for FIT5047 where participants build Pacman
       agents and compare their performance under a shared evaluation setup.
@@ -84,6 +96,9 @@ competitions:
     tracks:
       - id: "main"
         name: "Main Track"
+        # A track has an icon of its own and no banner: the banner belongs to the
+        # competition, and a track's pages sit inside it.
+        icon: ${{ dataUrl("./assets/track-icon.svg") }}
         description: >
           The standard competition track for submitting and evaluating your
           Pacman agent.

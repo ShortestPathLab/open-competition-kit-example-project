@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="640" viewBox="0 0 1920 640" role="img">
+  <title>Pacman competition banner</title>
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#080c1f" />
+      <stop offset="0.55" stop-color="#141a3c" />
+      <stop offset="1" stop-color="#2a1140" />
+    </linearGradient>
+    <radialGradient id="glow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#ffd54a" stop-opacity="0.16" />
+      <stop offset="1" stop-color="#ffd54a" stop-opacity="0" />
+    </radialGradient>
+    <pattern id="pellets" width="56" height="56" patternUnits="userSpaceOnUse">
+      <circle cx="28" cy="28" r="3" fill="#8ea2ff" fill-opacity="0.14" />
+    </pattern>
+    <g id="ghost">
+      <path d="M0 78V36a36 36 0 0 1 72 0v42l-12-10-12 10-12-10-12 10z" />
+      <circle cx="22" cy="34" r="9" fill="#080c1f" fill-opacity="0.5" />
+      <circle cx="50" cy="34" r="9" fill="#080c1f" fill-opacity="0.5" />
+    </g>
+  </defs>
+
+  <rect width="1920" height="640" fill="url(#sky)" />
+  <rect width="1920" height="640" fill="url(#pellets)" />
+
+  <!-- Maze walls, drawn as outlines so the gradient reads through them. -->
+  <g fill="none" stroke="#5b6bd6" stroke-opacity="0.18" stroke-width="5">
+    <rect x="110" y="110" width="300" height="130" rx="26" />
+    <rect x="150" y="380" width="180" height="140" rx="26" />
+    <rect x="470" y="180" width="130" height="290" rx="26" />
+    <rect x="690" y="100" width="360" height="110" rx="26" />
+    <rect x="720" y="430" width="300" height="110" rx="26" />
+    <rect x="1120" y="90" width="150" height="120" rx="26" />
+    <rect x="1420" y="150" width="380" height="120" rx="26" />
+    <rect x="1500" y="400" width="230" height="130" rx="26" />
+  </g>
+
+  <circle cx="1180" cy="320" r="300" fill="url(#glow)" />
+
+  <!-- A pellet run across the middle, with the wedge working along it. -->
+  <g fill="#ffd54a" fill-opacity="0.34">
+    <circle cx="1020" cy="320" r="8" />
+    <circle cx="920" cy="320" r="8" />
+    <circle cx="820" cy="320" r="8" />
+    <circle cx="720" cy="320" r="8" />
+    <circle cx="620" cy="320" r="8" />
+    <circle cx="520" cy="320" r="8" />
+  </g>
+
+  <path
+    d="M1180 320 1275.3 375A110 110 0 1 1 1275.3 265Z"
+    fill="#ffd54a"
+    fill-opacity="0.5"
+    transform="rotate(180 1180 320)"
+  />
+
+  <g fill="#ff5f7e" fill-opacity="0.3">
+    <use href="#ghost" x="1400" y="281" />
+  </g>
+  <g fill="#4fd1ff" fill-opacity="0.26">
+    <use href="#ghost" x="1530" y="281" />
+  </g>
+  <g fill="#ffb347" fill-opacity="0.22">
+    <use href="#ghost" x="1660" y="281" />
+  </g>
+</svg>
