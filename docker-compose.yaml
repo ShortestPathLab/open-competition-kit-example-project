@@ -24,9 +24,14 @@ services:
       BETTER_AUTH_SECRET: secret
       # Set this to your website's URL
       BASE_URL: http://localhost:3007
+      # The whole project, not just the config file. `text()` and `dataUrl()`
+      # resolve against the directory the config was found in, so the banner, the
+      # icons and the evaluation program all have to be reachable from there.
+      # Mounting the directory is also what keeps a new file from needing a new
+      # line here.
+      CONFIG: /competition/competition.config.yaml
     volumes:
-      - ./competition.config.yaml:/competition.config.yaml
-      - ./fit5047:/fit5047
+      - ./:/competition
       # Submission archives. This volume MUST be mounted at the same path in the
       # runner too: the UI writes the archive, the runner reads it. Mount it in
       # only one and every job fails with "no such file".
@@ -41,14 +46,12 @@ services:
     # The runner reads the same config, so it needs the same variables.
     env_file: .env
     environment:
-      # Which questions to evaluate. The full suite is minutes per submission;
-      # Q1a is seconds. "q1a,q1b,q1c,q2" runs everything.
-      FIT5047_QUESTIONS: q1a
-      # Build it first: ./fit5047/build.sh
-      FIT5047_IMAGE: ock-pacman-a1:dev
+      CONFIG: /competition/competition.config.yaml
     volumes:
-      - ./competition.config.yaml:/competition.config.yaml
-      - ./fit5047:/fit5047
+      # The evaluation program, the recipe for the image it runs in, and the
+      # table it scores against are all in here and all inlined when the config
+      # loads. There is nothing to build beforehand and no package to install.
+      - ./:/competition
       # Same volume, same path as the UI.
       - ./data:/data
       # Lets sandbox-docker run evaluations in their own containers, which is
@@ -57,5 +60,6 @@ services:
       #
       # This is a real grant: anything that can reach this socket can control
       # Docker on the host, and therefore the host. It is why the evaluation
-      # image is built here and never from anything a participant sends.
+      # image is built from the recipe in the config and never from anything a
+      # participant sends.
       - /var/run/docker.sock:/var/run/docker.sock

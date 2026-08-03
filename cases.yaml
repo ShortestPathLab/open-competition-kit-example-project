@@ -1,0 +1,136 @@
+# What the suite runs, and what each instance is worth.
+#
+# Read by evaluate.py, and by nothing else. Open Competition Kit copies this file
+# into the evaluation container because competition.config.yaml lists it under
+# `include:`, and never looks inside it: what a case is, and what makes one worth
+# a point, is the competition's business rather than the kit's.
+#
+# `benchmark` is what a reference solution achieved. `floor` is the smallest
+# honest answer, used only by q1b: a search cannot expand fewer nodes than the
+# path it returns is long, so anything below it is a broken heuristic or a
+# hardcoded answer, and scores zero.
+#
+# `mode` picks how the harness is invoked. `search` runs a solver through
+# SearchAgent; `agent` runs a reflex agent against ghosts. `timeLimit` is the
+# harness's own limit, in seconds, per instance.
+#
+# These are not the course's marking benchmarks. See the note at the top of
+# evaluate.py.
+#
+# q2_dangerClassic.lay is left out on purpose: the reference scores -169 on it,
+# and a non-positive score floors to 0, so the layout could only ever award
+# nothing.
+
+q1a:
+  mode: search
+  timeLimit: 1
+  instances:
+    - layout: layouts/q1a_bigMaze.lay
+      benchmark: 210
+    - layout: layouts/q1a_bigMaze2.lay
+      benchmark: 58
+    - layout: layouts/q1a_contoursMaze.lay
+      benchmark: 13
+    - layout: layouts/q1a_mediumMaze.lay
+      benchmark: 68
+    - layout: layouts/q1a_mediumMaze2.lay
+      benchmark: 50
+    - layout: layouts/q1a_openMaze.lay
+      benchmark: 54
+    - layout: layouts/q1a_smallMaze.lay
+      benchmark: 19
+    - layout: layouts/q1a_testMaze.lay
+      benchmark: 27
+    - layout: layouts/q1a_tinyMaze.lay
+      benchmark: 8
+    - layout: layouts/q1a_trickyMaze.lay
+      benchmark: 41
+q1b:
+  mode: search
+  timeLimit: 5
+  instances:
+    - layout: layouts/q1b_bigCorners.lay
+      benchmark: 35
+      floor: 30
+    - layout: layouts/q1b_bigCorners2.lay
+      benchmark: 104
+      floor: 43
+    - layout: layouts/q1b_closed.lay
+      benchmark: 58
+      floor: 38
+    - layout: layouts/q1b_mediumCorners.lay
+      benchmark: 19
+      floor: 18
+    - layout: layouts/q1b_mediumCorners2.lay
+      benchmark: 35
+      floor: 32
+    - layout: layouts/q1b_openCorners.lay
+      benchmark: 24
+      floor: 23
+    - layout: layouts/q1b_openCorners2.lay
+      benchmark: 14
+      floor: 13
+    - layout: layouts/q1b_smallCorners.lay
+      benchmark: 15
+      floor: 14
+    - layout: layouts/q1b_tinyCorners.lay
+      benchmark: 4
+      floor: 3
+    - layout: layouts/q1b_tinyCorners2.lay
+      benchmark: 2
+      floor: 1
+    - layout: layouts/q1b_trickyCorners.lay
+      benchmark: 11
+      floor: 10
+q1c:
+  mode: search
+  timeLimit: 10
+  instances:
+    - layout: layouts/q1c_bigSearch.lay
+      benchmark: 2360
+    - layout: layouts/q1c_boxSearch.lay
+      benchmark: 738
+    - layout: layouts/q1c_closed.lay
+      benchmark: 122
+    - layout: layouts/q1c_greedySearch.lay
+      benchmark: 610
+    - layout: layouts/q1c_mediumDottedMaze.lay
+      benchmark: 646
+    - layout: layouts/q1c_mediumSearch.lay
+      benchmark: 1409
+    - layout: layouts/q1c_oddSearch.lay
+      benchmark: 907
+    - layout: layouts/q1c_openSearch.lay
+      benchmark: 1292
+    - layout: layouts/q1c_smallSearch.lay
+      benchmark: 622
+    - layout: layouts/q1c_tinySearch.lay
+      benchmark: 569
+    - layout: layouts/q1c_trickySearch.lay
+      benchmark: 562
+q2:
+  mode: agent
+  timeLimit: 30
+  instances:
+    - layout: layouts/q2_capsuleClassic.lay
+      benchmark: 1326
+    - layout: layouts/q2_contestClassic.lay
+      benchmark: 2237
+    - layout: layouts/q2_mediumClassic.lay
+      benchmark: 2477
+    - layout: layouts/q2_mediumClassic2.lay
+      benchmark: 687
+    - layout: layouts/q2_minimaxClassic.lay
+      benchmark: 516
+    - layout: layouts/q2_openClassic.lay
+      benchmark: 1417
+    - layout: layouts/q2_originalClassic.lay
+      benchmark: 3738
+    - layout: layouts/q2_smallClassic.lay
+      benchmark: 656
+    - layout: layouts/q2_testClassic.lay
+      benchmark: 564
+    - layout: layouts/q2_trappedClassic.lay
+      benchmark: 532
+    - layout: layouts/q2_trickyClassic.lay
+      benchmark: 3590

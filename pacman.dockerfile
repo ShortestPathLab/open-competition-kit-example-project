@@ -1,6 +1,11 @@
 # The evaluation sandbox: the Pacman harness, fixed, with nothing of the
 # submission in it. A job overlays only the seven files a student may edit.
 #
+# Built by the runner service when it starts, from the copy of this file inlined
+# into competition.config.yaml. Nothing has to be built by hand, and nothing has
+# to be mounted: an edit here changes the image's name, and a changed name is a
+# rebuild.
+#
 # Derived from the contest server's app/dockerfile.runner, with the setup work
 # done at build time rather than on every job.
 FROM python:3.9-slim
@@ -11,8 +16,10 @@ RUN apt-get update \
     build-essential gcc python3-dev libffi-dev libssl-dev git ca-certificates \
   && rm -rf /var/lib/apt/lists/*
 
+# pyyaml is the evaluation program's, not the harness's: evaluate.py reads
+# cases.yaml. The rest are what the harness itself imports.
 RUN pip install --no-cache-dir --upgrade pip \
-  && pip install --no-cache-dir pandas numpy scipy recordclass
+  && pip install --no-cache-dir pandas numpy scipy recordclass pyyaml
 
 WORKDIR /runner
 

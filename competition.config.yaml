@@ -1,15 +1,22 @@
+# Absolute, because these are the kit's own packages and they live inside the
+# service images at /packages. A relative entry would be resolved against the
+# directory this file was found in, which is the project directory rather than
+# the image's root.
 with:
-  - ./packages/packages/noop
-  - ./packages/packages/standard
-  - ./packages/packages/db/prisma
-  - ./packages/packages/form/json
-  - ./packages/packages/leaderboard/ag-grid
-  - ./packages/packages/large-files/local
+  - /packages/packages/noop
+  - /packages/packages/standard
+  - /packages/packages/db/prisma
+  - /packages/packages/form/json
+  - /packages/packages/leaderboard/ag-grid
+  - /packages/packages/large-files/local
   # Runs each evaluation in its own container. Needs the Docker socket mounted
-  # into the runner — see docker-compose.yaml.
-  - ./packages/packages/sandbox/docker
-  - /fit5047
-  - ./packages/packages/integration/github-classic
+  # into the runner. See docker-compose.yaml.
+  - /packages/packages/sandbox/docker
+  # Evaluates with the program in `runner.program:` below, rather than with a
+  # package. Listed after `standard` so its runner sits further out and replaces
+  # the one `standard` would otherwise run.
+  - /packages/packages/runner/script
+  - /packages/packages/integration/github-classic
 appName: GPPC
 appDescription: >
   GPPC hosts the FIT5047 Pacman Competition at Monash University, where
@@ -55,7 +62,6 @@ db:
   url: postgres://postgres:postgres@db:5432/postgres
 competitions:
   - id: "fit5047"
-    with: []
     name: "FIT5047 Pacman Competition"
     organiser: "Monash University"
     # Both pictures are read off disk and inlined into the config, so they are
@@ -140,9 +146,7 @@ competitions:
         rateLimit:
           count: 3
           windowMinutes: 60
-        with: []
         form:
-          with: []
           shape:
             - id: github:ref
               name: GitHub Branch
@@ -150,19 +154,57 @@ competitions:
               # and populates a selector with the user's branches
               kind: github:ref-select
 
+    # The whole evaluation, as one Python file and the table it scores against.
+    # No package, no node_modules and nothing mounted: everything below is
+    # inlined when the config loads, so the competition travels as this file and
+    # its neighbours.
     runner:
-      with: []
-      body: |
-        ({
-          ok: true,
-          track: submission.track,
-          submission: JSON.parse(submission.body),
-        })
+      # The evaluation image, built when the runner service starts and named
+      # after the contents of this recipe. Editing pacman.dockerfile changes the
+      # name, which makes it a different image, which rebuilds. A fixed tag
+      # cannot do that, and a competition scored against last week's harness
+      # reports nothing unusual while it happens.
+      build:
+        dockerfile: ${{ text("./pacman.dockerfile") }}
+        args:
+          # `fit5047a1` is the assignment harness; master is the capture-the-flag
+          # contest.
+          PACMAN_REF: fit5047a1
+      # The program. It defines plan(), evaluate() and reduce(), and each runs in
+      # its own container: plan once, evaluate once per instance, reduce once at
+      # the end.
+      program: ${{ text("./evaluate.py") }}
+      # Copied in beside the program and never read by the kit. What a case is,
+      # and what one is worth, belongs to the competition.
+      include:
+        cases.yaml: ${{ text("./cases.yaml") }}
+      # Passed to every phase untouched. The full suite is minutes per
+      # submission and q1a alone is seconds, which is what you want while you are
+      # still setting things up.
+      params:
+        questions: [q1a]
+      # The seven files a student may edit. Everything else in the archive is
+      # dropped before any container starts, which is what makes an edited
+      # pacman.py, a rewritten layout or a sitecustomize.py into non-issues.
+      submission:
+        allow:
+          - agents/q2Agent.py
+          - problems/q1a_problem.py
+          - problems/q1b_problem.py
+          - problems/q1c_problem.py
+          - solvers/q1a_solver.py
+          - solvers/q1b_solver.py
+          - solvers/q1c_solver.py
+      # Per case, not per submission. Forty instances each get this much, and one
+      # that wedges its interpreter takes nothing with it but its own container.
+      timeoutMs: 90000
+      limits:
+        memoryMb: 2048
+        cpus: 1
     leaderboards:
       - id: main-track-leaderboard
         name: Main Track Leaderboard
         description: Best scoring run per participant, highest total first.
-        with: []
         # Rows come from real finished jobs. `from` takes precedence over
         # `items`, which used to hold invented teams scoring on tracks
         # ("Vision", "NLP", "Forecasting") this competition does not have.
