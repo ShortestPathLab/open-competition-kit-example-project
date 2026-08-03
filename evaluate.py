@@ -1,9 +1,21 @@
 """Scoring a Pacman submission.
 
-The whole of the FIT5047 evaluation, as one file. The kit runs `plan` once to
-find out what there is to do, `evaluate` once per instance in a container of its
-own, and `reduce` once to turn the measurements into the row the leaderboard
-reads.
+The whole of the FIT5047 evaluation, as one file. It is run three times, each in
+a container of its own: once to plan, once per instance, and once to reduce the
+measurements into the row the leaderboard reads.
+
+## Talking to the kit
+
+Read a JSON request from /ock/request.json, write a JSON reply to the path its
+`reply` field names. That is the whole protocol, and `main` at the bottom of this
+file is all of it. There is no library to import and nothing language-specific in
+the kit: a Go binary doing the same two file operations would be just as much of
+an evaluation program as this is.
+
+Answering with `null` means "no opinion about this phase" and the kit fills in
+what it would have done: one unnamed case for a plan, and the numbers added up
+for a reduce. A competition that scores one thing can therefore handle one phase
+and ignore the other two.
 
 ## Where the split falls
 
@@ -27,26 +39,43 @@ the reference at roughly 1.0 per instance. It does not make them the marking
 scheme. Swap in the real layouts and numbers and nothing here changes.
 """
 
+import json
 import os
 import re
+import shutil
 import subprocess
+import sys
 import time
 
 import yaml
 
 HARNESS = "/runner"
 CASES = "cases.yaml"
+REQUEST = "/ock/request.json"
 
 
 def load_cases():
     """Every instance, with what it is worth.
 
     Read here rather than passed in through the config, because the kit has no
-    opinion about what a case is: `plan` returns a list and the kit hands each
-    element back to `evaluate` untouched.
+    opinion about what a case is: the plan phase answers with a list and the kit
+    hands each element back untouched.
     """
     with open(CASES) as handle:
         return yaml.safe_load(handle)
+
+
+def overlay(submission, directory):
+    """Lay the submission's permitted files over a directory.
+
+    Only the seven paths `submission.allow` names in the config. The rest of the
+    archive was discarded before this container started, so an edited pacman.py
+    or an extra sitecustomize.py is not here to be found.
+    """
+    for name in submission["files"]:
+        target = os.path.join(directory, name)
+        os.makedirs(os.path.dirname(target), exist_ok=True)
+        shutil.copyfile(os.path.join(submission["root"], name), target)
 
 
 def plan(params):
@@ -146,7 +175,7 @@ def evaluate(case, submission):
             "pacman.dockerfile; this is not that image." % HARNESS
         )
 
-    submission.copy_into(HARNESS)
+    overlay(submission, HARNESS)
 
     limit = case["timeLimit"]
     started = time.monotonic()
@@ -260,3 +289,32 @@ def reduce(results, cases):
     for key, value in per_question.items():
         row[key] = round(value, 3)
     return row
+
+
+def main():
+    """The whole of the protocol.
+
+    Read the request, run the phase it names, write the reply where it says. An
+    uncaught exception leaves no reply behind, which the kit reports as a failed
+    phase with this program's traceback attached, so there is nothing to catch
+    here that would be reported any better.
+    """
+    with open(REQUEST) as handle:
+        request = json.load(handle)
+
+    phase = request["phase"]
+
+    if phase == "plan":
+        value = plan(request["params"])
+    elif phase == "evaluate":
+        value = evaluate(request["case"], request["submission"])
+    else:
+        value = reduce(request["results"], request["cases"])
+
+    with open(request["reply"], "w") as handle:
+        json.dump({"ok": True, "value": value}, handle)
+
+
+if __name__ == "__main__":
+    main()
+    sys.exit(0)

@@ -170,17 +170,15 @@ competitions:
           # `fit5047a1` is the assignment harness; master is the capture-the-flag
           # contest.
           PACMAN_REF: fit5047a1
-      # The program. It defines plan(), evaluate() and reduce(), and each runs in
-      # its own container: plan once, evaluate once per instance, reduce once at
-      # the end.
-      program: ${{ text("./evaluate.py") }}
-      # Which language it is written in, and so which shim turns the kit's file
-      # protocol into the three functions below. Not guessed from the program:
-      # it arrives as text with no filename to read an extension off.
-      runtime: python
-      # Copied in beside the program and never read by the kit. What a case is,
-      # and what one is worth, belongs to the competition.
+      # What runs, once per phase, from the directory `include:` fills. The kit
+      # knows no language: it starts this and the program reads a JSON file. A Go
+      # binary or a shell script would be configured exactly the same way.
+      command: ["python3", "evaluate.py"]
+      # The program, and the table it scores against. Copied in and never read by
+      # the kit: what a case is, and what one is worth, belongs to the
+      # competition rather than to a vocabulary the kit would have to invent.
       include:
+        evaluate.py: ${{ text("./evaluate.py") }}
         cases.yaml: ${{ text("./cases.yaml") }}
       # Passed to every phase untouched. The full suite is minutes per
       # submission and q1a alone is seconds, which is what you want while you are
