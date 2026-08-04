@@ -3,11 +3,21 @@
   "module": "index.ts",
   "types": "index.ts",
   "type": "module",
+  "scripts": {
+    "tsc": "tsc",
+    "lint": "oxlint",
+    "lint:fix": "oxlint --fix",
+    "format": "oxfmt",
+    "format:check": "oxfmt --check"
+  },
   "devDependencies": {
-    "@types/bun": "latest"
+    "@types/bun": "latest",
+    "oxfmt": "^0.62.0",
+    "oxlint": "^1.77.0",
+    "typescript": "^7.0.2"
   },
   "peerDependencies": {
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3 || ^6.0.0 || ^7.0.0"
   },
   "dependencies": {
     "@open-competition-kit/sdk": "0.0.9",
