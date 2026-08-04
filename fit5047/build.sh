@@ -8,6 +8,11 @@
 # script stays because the package beside it predates that and calls sandbox.run
 # with a tag it expects to already exist.
 #
+# `sandbox` is what those hooks were called in @open-competition-kit/sdk 0.0.9,
+# which is the version this directory pins. They are `machine` from the next
+# release on, since only one of the things that can run a command is a sandbox.
+# Nothing here moves until the pin does.
+#
 # The image holds the Pacman harness and nothing of any submission: a job copies
 # in only the seven files a student may edit. That is what makes an edited
 # pacman.py or a rewritten layout a non-issue.

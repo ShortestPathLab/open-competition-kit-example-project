@@ -9,9 +9,12 @@ with:
   - /packages/packages/form/json
   - /packages/packages/leaderboard/ag-grid
   - /packages/packages/large-files/local
-  # Runs each evaluation in its own container. Needs the Docker socket mounted
-  # into the runner. See docker-compose.yaml.
-  - /packages/packages/sandbox/docker
+  # Where a command runs. This one gives each evaluation a container of its own
+  # and needs the Docker socket mounted into the runner, as in
+  # docker-compose.yaml. Leave it out and `standard` runs the same command as a
+  # child process of the runner service instead, which is enough to try an
+  # evaluation out and not enough to accept a stranger's code.
+  - /packages/packages/machine/docker
   # Evaluates with the program in `runner.program:` below, rather than with a
   # package. Listed after `standard` so its runner sits further out and replaces
   # the one `standard` would otherwise run.
@@ -52,8 +55,10 @@ auth:
 files:
   root: /data/files
   maxBytes: 536870912
-# The ceiling on any sandboxed run. A runner may ask for less, never for more.
-sandbox:
+# The ceiling on any run. A runner may ask for less, never for more. Declared by
+# the machine package that enforces it, so these keys are only valid with one
+# installed that understands them.
+machine:
   timeoutMs: 120000
   memoryMb: 2048
   pids: 256

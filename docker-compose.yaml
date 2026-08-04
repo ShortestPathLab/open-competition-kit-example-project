@@ -54,7 +54,7 @@ services:
       - ./:/competition
       # Same volume, same path as the UI.
       - ./data:/data
-      # Lets sandbox-docker run evaluations in their own containers, which is
+      # Lets machine-docker run evaluations in their own containers, which is
       # what keeps a submitted Pacman agent out of this one. The containers it
       # starts are siblings on the host's daemon, not children.
       #
