@@ -3,21 +3,31 @@
 # directory this file was found in, which is the project directory rather than
 # the image's root.
 with:
+  # The first three are applied to every config whether or not anybody writes
+  # them. They are written here because the kit's own packages are baked into the
+  # images: an unnamed default is fetched from npm, where these entries point at
+  # what is already on disk.
   - /packages/packages/noop
   - /packages/packages/standard
+  - /packages/packages/machine/local
   - /packages/packages/db/prisma
   - /packages/packages/form/json
   - /packages/packages/leaderboard/ag-grid
   - /packages/packages/large-files/local
+  # Opening and closing times, an attempt ceiling, and a rolling rate limit. Not
+  # a default: a competition that gates nothing should not have to answer for the
+  # vocabulary, and a package that declares config fields is a package an
+  # organiser asked for.
+  - /packages/packages/gates/standard
   # Where a command runs. This one gives each evaluation a container of its own
   # and needs the Docker socket mounted into the runner, as in
-  # docker-compose.yaml. Leave it out and `standard` runs the same command as a
-  # child process of the runner service instead, which is enough to try an
-  # evaluation out and not enough to accept a stranger's code.
+  # docker-compose.yaml. Leave it out and each evaluation runs as a child process
+  # of the runner service instead, which is enough to try an evaluation out and
+  # not enough to accept a stranger's code.
   - /packages/packages/machine/docker
-  # Evaluates with the program in `runner.program:` below, rather than with a
-  # package. Listed after `standard` so its runner sits further out and replaces
-  # the one `standard` would otherwise run.
+  # Evaluates with the program in `runner:` below. Listed after `standard` so its
+  # runner sits further out, and it is the only thing here that evaluates
+  # anything: without a runner package a submission is stored and never scored.
   - /packages/packages/runner/script
   - /packages/packages/integration/github-classic
 appName: GPPC
@@ -129,11 +139,11 @@ competitions:
             dots and the number of times it gets caught by ghosts.
           - The competition will run for a specified duration, and all submissions
             must be made before the deadline.
-        # The three gates the `standard` package enforces. Each is optional and
-        # each is off when absent, so a track that sets none of them behaves the
-        # way it did before gates existed. A submission is refused if any of them
-        # says no, and the form shows every reason at once rather than making a
-        # competitor fix one to discover the next.
+        # The three gates the `gates-standard` package enforces. Each is optional
+        # and each is off when absent, so a track that sets none of them behaves
+        # as though the package were not installed. A submission is refused if
+        # any of them says no, and the form shows every reason at once rather
+        # than making a competitor fix one to discover the next.
         #
         # The window. Submissions before `opensAt` or at/after `closesAt` are
         # refused wherever they arrive from, not just from the form. Always write
@@ -217,9 +227,9 @@ competitions:
         # ("Vision", "NLP", "Forecasting") this competition does not have.
         from:
           track: main
-          # The reference fit5047's runner writes its scores to, in full. The
-          # default is the bare "default" that `standard` uses; this runner uses
-          # the qualified tag, and a mismatch here is silent — the board simply
+          # The reference fit5047's runner writes its scores to, in full. Leave
+          # it out and the board reads the bare "default"; this runner writes the
+          # qualified tag, and a mismatch here is silent, so the board simply
           # stays empty.
           output: open-competition-kit/tag/output/default
           # One row per participant: their best run, not their latest.
