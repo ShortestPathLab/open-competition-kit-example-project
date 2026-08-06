@@ -145,3 +145,6 @@ vite.config.ts.timestamp-*
 competition
 
 /data
+
+# What the config said before the last save from the settings page.
+competition.config.yaml.bak
