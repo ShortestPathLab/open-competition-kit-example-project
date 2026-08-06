@@ -91,12 +91,12 @@ competitions:
     #
     # `icon` stands in for the competition wherever it is named: its card on the
     # index, its own header, the list of competitions somebody has entered.
-    icon: ${{ dataUrl("./assets/competition-icon.svg") }}
+    icon: ${{ dataUrl("./assets/icon.webp") }}
     # `banner` is painted behind the navigation bar and header on every page
     # inside this competition. What shows is a horizontal band through the
     # middle, so keep anything that matters near the centre, and give it a wide
     # picture rather than a square one.
-    banner: ${{ dataUrl("./assets/banner.svg") }}
+    banner: ${{ dataUrl("./assets/banner.webp") }}
     description: >
       A programming competition for FIT5047 where participants build Pacman
       agents and compare their performance under a shared evaluation setup.
@@ -125,7 +125,7 @@ competitions:
         name: "Main Track"
         # A track has an icon of its own and no banner: the banner belongs to the
         # competition, and a track's pages sit inside it.
-        icon: ${{ dataUrl("./assets/track-icon.svg") }}
+        icon: ${{ dataUrl("./assets/icon.webp") }}
         description: >
           The standard competition track for submitting and evaluating your
           Pacman agent.
