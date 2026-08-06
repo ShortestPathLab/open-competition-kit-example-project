@@ -1,6 +1,6 @@
 """Scoring a Pacman submission.
 
-The whole of the FIT5047 evaluation, as one file. It is run three times, each in
+The whole of the evaluation, as one file. It is run three times, each in
 a container of its own: once to plan, once per instance, and once to reduce the
 measurements into the row the leaderboard reads.
 

@@ -30,12 +30,11 @@ with:
   # anything: without a runner package a submission is stored and never scored.
   - /packages/packages/runner/script
   - /packages/packages/integration/github-classic
-name: GPPC
+name: Example Competitions
 description: >
-  GPPC hosts the FIT5047 Pacman Competition at Monash University, where
-  participants build Pacman agents and compare their performance under a shared
-  evaluation setup. Enrol in a track, submit your agent, and see how it ranks on
-  the leaderboard.
+  Example Competitions hosts the Pacman Competition, where participants build
+  Pacman agents and compare their performance under a shared evaluation setup.
+  Enrol in a track, submit your agent, and see how it ranks on the leaderboard.
 # Who can reach /dashboard, matched against the signed-in user's email. Leave it
 # out and nobody can: the dashboard fails closed, since an unguarded organiser
 # surface is worse than an unreachable one. Read from the environment because
@@ -82,9 +81,9 @@ db:
   provider: postgresql
   url: postgres://postgres:postgres@db:5432/postgres
 competitions:
-  - id: "fit5047"
-    name: "FIT5047 Pacman Competition"
-    organiser: "Monash University"
+  - id: "pacman"
+    name: "Pacman Competition"
+    organiser: "Example University"
     # Both pictures are read off disk and inlined into the config, so they are
     # versioned alongside the competition that uses them and there is no host to
     # go down. An ordinary https:// URL works here too.
@@ -98,10 +97,10 @@ competitions:
     # picture rather than a square one.
     banner: ${{ dataUrl("./assets/banner.webp") }}
     description: >
-      A programming competition for FIT5047 where participants build Pacman
-      agents and compare their performance under a shared evaluation setup.
+      A programming competition where participants build Pacman agents and
+      compare their performance under a shared evaluation setup.
     overview: |
-      # FIT5047 Pacman Competition
+      # Pacman Competition
 
       In this competition, you'll design and implement an intelligent agent to
       navigate a maze as efficiently as possible. Your agent will be evaluated
@@ -233,7 +232,8 @@ competitions:
         # ("Vision", "NLP", "Forecasting") this competition does not have.
         from:
           track: main
-          # The reference fit5047's runner writes its scores to, in full. Leave
+          # The reference this competition's runner writes its scores to, in
+          # full. Leave
           # it out and the board reads the bare "default"; this runner writes the
           # qualified tag, and a mismatch here is silent, so the board simply
           # stays empty.
