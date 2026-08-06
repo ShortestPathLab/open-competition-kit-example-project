@@ -30,8 +30,8 @@ with:
   # anything: without a runner package a submission is stored and never scored.
   - /packages/packages/runner/script
   - /packages/packages/integration/github-classic
-appName: GPPC
-appDescription: >
+name: GPPC
+description: >
   GPPC hosts the FIT5047 Pacman Competition at Monash University, where
   participants build Pacman agents and compare their performance under a shared
   evaluation setup. Enrol in a track, submit your agent, and see how it ranks on
