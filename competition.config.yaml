@@ -42,6 +42,12 @@ description: >
 # this file is committed and an email address is not everybody's to share.
 admins:
   - ${{ env("ADMIN_EMAIL") }}
+# What the address above proves it is. Being listed says an address may organise;
+# it does not say the person signed in as it owns it, and sign-up takes an
+# address on trust. Signing in with GitHub settles that on its own, so this is
+# here for the email and password case: the organiser enters it once at
+# /me/verify. Leave it out and the service generates one and logs it at startup.
+adminToken: ${{ env("OCK_ADMIN_TOKEN") }}
 secrets:
   GITHUB_ORG: ${{ env("GITHUB_ORG") }}
   GITHUB_PAT: ${{ env("GITHUB_PAT") }}
